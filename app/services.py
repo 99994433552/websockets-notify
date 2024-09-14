@@ -10,7 +10,7 @@ from notifications import create_notification_message, manager
 # Background task for randomly updating device status
 async def background_device_status_update(db: Session):
     while True:
-        await asyncio.sleep(random.randint(1, 10))
+        await asyncio.sleep(random.randint(1, 60))
         devices = db.query(Device).all()
         if devices:
             device = random.choice(devices)
