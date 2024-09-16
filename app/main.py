@@ -1,6 +1,7 @@
 import asyncio
 
 from fastapi import FastAPI, WebSocket, WebSocketDisconnect
+from fastapi.middleware.cors import CORSMiddleware
 
 from database import engine, get_db
 from models import Base
@@ -9,6 +10,17 @@ from routes import devices, tasks, notify
 from services import background_device_status_update, initialize_fake_data
 
 app = FastAPI()
+
+origins = ["*"]
+
+app.add_middleware(
+    CORSMiddleware,
+    allow_origins=origins,
+    allow_credentials=True,
+    allow_methods=["*"],
+    allow_headers=["*"],
+)
+
 
 Base.metadata.create_all(bind=engine)
 
