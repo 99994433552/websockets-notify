@@ -19,7 +19,7 @@ def create_notification_message(
 
 # Function to generate a random URL
 def generate_random_url(item_id: int, prefix: str = "tasks") -> str:
-    valid_domain = "localhost:8000"
+    valid_domain = "localhost:3000"
     invalid_domains = [
         "invalid_domain.com",
         "no-such-site.xyz",
