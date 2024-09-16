@@ -4,7 +4,11 @@ import random
 from sqlalchemy.orm import Session
 
 from models import Device, Task
-from notifications import create_notification_message, manager
+from notifications import (
+    create_notification_message,
+    manager,
+    generate_random_url,
+)
 
 
 # Background task for randomly updating device status
@@ -19,8 +23,8 @@ async def background_device_status_update(db: Session):
 
             message = create_notification_message(
                 message=f"Device {device.name} is now {'online' if device.online else 'offline'}",
-                url=f"/devices/{device.id}",
-                msg_type="INFO",
+                url=generate_random_url(prefix="devices", item_id=device.id),
+                msg_type="INFO" if device.online else "ALERT",
             )
             await manager.broadcast(message)
 
