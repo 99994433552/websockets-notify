@@ -1,4 +1,5 @@
-from fastapi import APIRouter
+from typing import Annotated
+from fastapi import APIRouter, Body
 from notifications import (
     manager,
 )
@@ -7,6 +8,6 @@ router = APIRouter()
 
 
 @router.post("/")
-async def send_custom_notification(message: str):
-    await manager.broadcast_plain(message)
-    return {"message": "Notification sent"}
+async def send_custom_notification(message: Annotated[dict, Body()]):
+    await manager.broadcast(message)
+    return message
