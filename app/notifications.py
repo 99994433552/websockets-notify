@@ -1,6 +1,7 @@
 import json
 import random
 from datetime import datetime
+from uuid import uuid4
 
 from fastapi import WebSocket
 
@@ -10,6 +11,7 @@ def create_notification_message(
     message: str, url: str, msg_type: str = "INFO"
 ) -> dict:
     return {
+        "id": str(uuid4()),
         "message": message,
         "url": url,
         "date": datetime.now().strftime("%Y-%m-%d %H:%M"),
