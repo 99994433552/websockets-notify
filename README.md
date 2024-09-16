@@ -1,14 +1,30 @@
-## Websockets Notify
+# Websockets Notify
 
-This project is a simple FastAPI-based web application that demonstrates the use of WebSockets for real-time notifications. The system includes functionality for managing tasks and devices, with notifications sent over WebSockets when tasks are created, updated, or deleted. Additionally, the application supports random device status updates, which are also broadcasted via WebSockets.
+## Introduction
+This project demonstrates the use of FastAPI for building a real-time system using WebSockets. The primary purpose is
+task and device management with real-time notifications sent over WebSockets whenever tasks are created, updated, or
+deleted.
 
-## Features
+## Project Architecture
+The project is built with **FastAPI**, utilizing its asynchronous request handling capabilities, which make it ideal
+for WebSockets. The code is structured based on the **Separation of Concerns** principle, where each part has a
+clearly defined responsibility.
 
-- WebSocket-based notifications: Real-time communication between the server and clients using WebSockets.
-- Task management: Create, update, delete, and retrieve tasks
-- Device management: Simulated devices that can randomly change their online/offline status.
-- Notifications via WebSockets: Notifications include task creation, task status updates, and device status changes.
-- SQLite Database: Data persistence for tasks and devices.
+- **WebSockets** for real-time notifications.
+- **Tasks** and **Devices** managed with asynchronous requests.
+- **Docker** for easy setup and isolated environment.
+- **SQLite** as the lightweight database for storing task and device data.
+
+## Key Features
+- **Task Management**: Create, update, delete, and retrieve tasks via REST API with WebSocket notifications for real-time updates.
+- **Device Management**: Simulated devices with random online/offline status changes that are broadcast via WebSockets.
+- **Real-time WebSocket Communication**: Clients connect to receive live updates.
+- **Swagger Documentation**: Auto-generated API docs available at `/docs` for easy exploration and testing of endpoints.
+
+## Why I Chose These Technologies
+1. **FastAPI** supports asynchronous operations natively, making it ideal for WebSocket-based real-time applications.
+2. **Docker** ensures consistent development and deployment environments.
+3. **WebSocket** allows for real-time, bidirectional communication between server and clients.
 
 ## How to Run
 
@@ -96,6 +112,24 @@ To stop the container, find the container ID using `docker ps` and stop it using
 docker stop <container_id>
 ```
 
-## License
+## FAQ
 
-This project is licensed under the MIT License.
+### 1. Why did you choose FastAPI over Flask or Django?
+FastAPI natively supports asynchronous operations and WebSockets, making it highly efficient for real-time
+applications. It also provides automatic API documentation.
+
+### 2. How does the system handle WebSocket connections?
+Clients connect to the WebSocket endpoint at `/ws/{client_id}` and receive real-time notifications for changes in
+tasks and device statuses.
+
+### 3. How are multiple WebSocket connections handled?
+The `ConnectionManager` class manages all active WebSocket connections. When tasks or devices are updated, the system
+broadcasts notifications to all connected clients.
+
+### 4. How are device statuses updated?
+There is a background task that selects a random device and toggles its online/offline status every few seconds. These
+changes are broadcast via WebSocket to connected clients.
+
+### 5. How is Docker integrated into the project?
+Docker is used to ensure consistent environments for running the application. The Dockerfile allows for building the
+project and running it in an isolated container.
